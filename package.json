@@ -1,0 +1,16 @@
+{
+	"name": "PokerServer",
+	"subdomain": "pokerprem",
+	"scripts": {
+		"start": "node server.js"
+	},
+	"version": "0.0.2",
+	"engines": {
+		"node": "0.8.x"
+	},
+	"dependencies": {
+		"express": "3.3.x",
+		"socket.io": "0.9.x",
+		"poker-evaluator": "https://github.com/chenosaurus/poker-evaluator/tarball/master"
+	}
+}
