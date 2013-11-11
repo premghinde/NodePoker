@@ -2,32 +2,40 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
+
 var evaluator = require('poker-evaluator');
 var deck = require('./mods/deck');
-var connectionids = [];
+var Player = require('./mods/player');
+var table = require('./mods/table');
+
+var gameChips = 5000;
 
 io.sockets.on('connection', function (socket) {
-	console.log('woo hoooooooo someone connected!')
-	console.log(socket.id)
-
-	connectionids.push(socket.id)
-
-	socket.emit('news', {
-		hello: 'world'
+	player = new Player();
+	table.addPlayer(player.setup({
+		name: 'Player' + socket.id,
+		id: socket.id,
+		chips: gameChips
+	}));
+	socket.emit('playerJoined', {
+		name: 'Player' + socket.id
 	});
 
 	socket.on('my other event', function (data) {
 		console.log(data);
 	});
-	if (connectionids.length > 1) {
-		socket.on('dealcard', function (data) {
-			for (var i = 0; i < 54; i++) {
-				socket.emit('newcard', {
-					card: deck.newCard()
-				})
+	socket.on('setPlayerName', function (data) {
+		console.log(data);
+		table.listPlayers().forEach(function(player) {
+			console.log(player.id, data.id)
+			if (player.id === data.id) {
+				player.setName(data.name);
 			}
 		});
-	}
+		console.log(table.listPlayers())
+	});
+	console.log(table.listPlayers())
+	
 });
 
 app.use(express.static(__dirname + '/'));
