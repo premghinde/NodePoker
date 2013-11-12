@@ -16,7 +16,8 @@ Deck.prototype = {
 			for (j = 0; j < suits.length; j++) {
 				this.cards.push({
 					val: vals[i],
-					suit: suits[j]
+					suit: suits[j],
+					str: vals[i] + suits[j]
 				});
 			}
 		}

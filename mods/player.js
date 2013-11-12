@@ -47,6 +47,12 @@ Player.prototype = {
 	},
 
 	placeBet: function(bet) {
+		if (this.chips > bet) {
+			this.chips -= bet;
+		} else {
+			bet = this.chips;
+			this.chips = 0;
+		}
 		if (this.bet) {
 			this.bet += bet;
 		} else {

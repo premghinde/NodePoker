@@ -3,8 +3,6 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
-var evaluator = require('poker-evaluator');
-var deck = require('./mods/deck');
 var Player = require('./mods/player');
 var table = require('./mods/table');
 

@@ -1,4 +1,5 @@
 var deck = require('./deck');
+var evaluator = require('poker-evaluator');
 
 var Table = function() {};
 
@@ -9,6 +10,7 @@ Table.prototype = {
 	pot: 0,
 	deck: deck,
 	dealerPosition: null,
+	currentPlayer: null,
 
 	listPlayers: function() {
 		return this.players;
@@ -19,23 +21,35 @@ Table.prototype = {
 		this.players.push(player);
 	},
 
-	hands: {
+	resetHands: function() {
+		this.listPlayers().forEach(function(pl) {
+			pl.reset();
+		});
+		this.setDealer();
+	},
 
-		newHands: function() {
-			this.listPlayers().forEach(function(pl) {
-				pl.reset();
+	evaluateHands: function() {
+		var winner = null;
+		this.listPlayers().forEach(function(pl) {
+			var cards = [];
+			pl.cards.forEach(function(card) {
+				cards.push(card.str);
 			});
-			this.updateAllPlayers();
-		},
-
-		nextStep: function() {
-			this.deal();
-		}
-
+			pl.rank = evaluator.evalHand(cards);
+			if (winner) {
+				if (winner.rank.value < pl.rank.value) {
+					winner = pl;
+				}
+			} else {
+				winner = pl;
+			}
+		});
+		console.log('winner ',winner.name)
 	},
 
 	deal: function() {
 		var cardsdealt = this.listPlayers()[0].cards.length;
+		console.log('cardsdealt', cardsdealt)
 		if (cardsdealt === 0) {
 			for (var i = 0; i < 2; i++) {
 				this.players.forEach(function(pl) {
@@ -62,6 +76,9 @@ Table.prototype = {
 			this.players.forEach(function(pl) {
 				pl.setCard(riverCard);
 			});
+		}
+		if (cardsdealt > 6) {
+			this.evaluateHands();
 		}
 	},
 
