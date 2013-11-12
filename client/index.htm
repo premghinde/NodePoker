@@ -5,7 +5,11 @@
 <body>
 	<h1>boo</h1>
 	<p><a href="javascript:void(0)" onclick="socket.emit('dealcard')">Gimme a card mofo</a></p>
-	<p><input id="playername" type="text" placeholder="Change you screen name" /> <input type="submit" value="Set my name" id="submitname" /> </p>
+  <hr />
+  <p><input id="playername" type="text" placeholder="Change you screen name" /> <input type="submit" value="Set my name" id="submitname" /><
+  <hr />
+  <p><button id="bet">Bet</button> </p>
+  <hr />
   <p id="admin">
     <button id="deal">Deal</button>
   </p>
@@ -31,7 +35,15 @@
   }
 
   document.getElementById('deal').onclick = function() {
+    console.log('about to emit dealcards')
     socket.emit('dealcards');
+  }
+
+  document.getElementById('bet').onclick = function() {
+    console.log('about to emit a bet')
+    socket.emit('bet', {
+      value: 50
+    });
   }
 
 </script>

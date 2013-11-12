@@ -33,8 +33,7 @@ Table.prototype = {
 	},
 
 	deal: function() {
-		var cardsdealt = this.listPlayers()[0].cards.length,
-			that = this;
+		var cardsdealt = this.listPlayers()[0].cards.length;
 		if (cardsdealt === 0) {
 			for (var i = 0; i < 2; i++) {
 				this.players.forEach(function(pl) {
@@ -72,20 +71,17 @@ Table.prototype = {
 	},
 
 	updateAllPlayers: function () {
-		var status = this.status();
-		status.players.forEach(function(pl) {
-			delete pl.id;
-		});
-		console.log(status)
-		status.players.forEach(function(pl) {
-
-			// pl.socket.emit('tableStatus', status);
-		});
-		
-	},
-
-	updateOnePlayer: function(id) {
-
+		var that = this;
+		this.status().players.forEach(function(pl) {
+			pl.socket.emit('tableStatus', {
+				name: pl.name,
+				chips: pl.chips,
+				cards: pl.cards,
+				place: pl.place,
+				bet: pl.bet,
+				pot: that.pot
+			});
+		});	
 	}
 
 

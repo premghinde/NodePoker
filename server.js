@@ -24,20 +24,15 @@ io.sockets.on('connection', function (socket) {
 				player.setName(data.name);
 			}
 		});
-		updateAllPlayers();
+		table.updateAllPlayers();
 	});
 
-	socket.emit('playerJoined', {
-		name: 'Player'
+	socket.on('dealcards', function() {
+		table.deal();
+		table.updateAllPlayers();
 	});
-
-	
 });
 
-setInterval(function(){
-	table.deal()
-	table.updateAllPlayers();
-}, 5000)
 
 app.use(express.static(__dirname + '/'));
 
