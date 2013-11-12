@@ -32,8 +32,14 @@ io.sockets.on('connection', function (socket) {
 		table.updateAllPlayers();
 	});
 
-	socket.on('bet', function() {
-		console.log(arguments)
+	socket.on('bet', function(data) {
+		table.listPlayers().forEach(function(player) {
+			if (player.id === data.id) {
+				console.log(player)
+				player.placeBet(data.value);
+			}
+		});
+		table.updateAllPlayers();
 	});
 });
 

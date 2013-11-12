@@ -3,6 +3,7 @@ var Player = function() {};
 Player.prototype = {
 
 	constructor: Player,
+	table: null,
 	id: null,
 	name: null,
 	chips: 1000,
@@ -45,8 +46,13 @@ Player.prototype = {
 		});
 	},
 
-	bet: function(bet) {
-		Table.bet(bet || 50);
+	placeBet: function(bet) {
+		if (this.bet) {
+			this.bet += bet;
+		} else {
+			this.bet = bet;
+		}
+		this.table.pot += bet;
 	},
 
 	fold: function() {

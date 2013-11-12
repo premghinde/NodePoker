@@ -42,7 +42,8 @@
   document.getElementById('bet').onclick = function() {
     console.log('about to emit a bet')
     socket.emit('bet', {
-      value: 50
+      value: 50,
+      id: socket.socket.sessionid
     });
   }
 

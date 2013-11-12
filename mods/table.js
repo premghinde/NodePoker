@@ -8,12 +8,14 @@ Table.prototype = {
 	players: [],
 	pot: 0,
 	deck: deck,
+	dealerPosition: null,
 
 	listPlayers: function() {
 		return this.players;
 	},
 
 	addPlayer: function(player) {
+		player.table = this;
 		this.players.push(player);
 	},
 
@@ -63,6 +65,26 @@ Table.prototype = {
 		}
 	},
 
+	setDealer: function() {
+		if (this.dealerPosition) {
+			if (this.dealerPosition === this.players.length - 1) {
+				this.dealerPosition = 0;
+			} else {
+				this.dealerPosition++;
+			}
+			if (!this.players[this.dealerPosition].chips) {
+				this.setDealer();
+				this.players[this.dealerPosition].place = null;
+			} else {
+				this.players[this.dealerPosition].place = 0;
+			}
+		} else {
+			this.dealerPosition = Math.floor(Math.random() * this.players.length);
+			this.setDealer();
+		}
+		this.updateAllPlayers();
+	},
+
 	status: function() {
 		return {
 			players: this.listPlayers(),
@@ -83,7 +105,6 @@ Table.prototype = {
 			});
 		});	
 	}
-
 
 };
 
