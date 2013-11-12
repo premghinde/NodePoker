@@ -31,6 +31,10 @@ io.sockets.on('connection', function (socket) {
 		table.deal();
 		table.updateAllPlayers();
 	});
+
+	socket.on('bet', function() {
+		console.log(arguments)
+	});
 });
 
 
