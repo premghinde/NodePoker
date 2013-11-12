@@ -11,32 +11,33 @@ var table = require('./mods/table');
 var gameChips = 5000;
 
 io.sockets.on('connection', function (socket) {
-	player = new Player();
-	table.addPlayer(player.setup({
-		name: 'Player' + socket.id,
+	table.addPlayer(new Player().setup({
+		name: 'Player',
 		id: socket.id,
-		chips: gameChips
+		chips: gameChips,
+		socket: socket
 	}));
-	socket.emit('playerJoined', {
-		name: 'Player' + socket.id
-	});
 
-	socket.on('my other event', function (data) {
-		console.log(data);
-	});
 	socket.on('setPlayerName', function (data) {
-		console.log(data);
 		table.listPlayers().forEach(function(player) {
-			console.log(player.id, data.id)
 			if (player.id === data.id) {
 				player.setName(data.name);
 			}
 		});
-		console.log(table.listPlayers())
+		updateAllPlayers();
 	});
-	console.log(table.listPlayers())
+
+	socket.emit('playerJoined', {
+		name: 'Player'
+	});
+
 	
 });
+
+setInterval(function(){
+	table.deal()
+	table.updateAllPlayers();
+}, 5000)
 
 app.use(express.static(__dirname + '/'));
 

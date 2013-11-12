@@ -6,17 +6,28 @@ Player.prototype = {
 	id: null,
 	name: null,
 	chips: 1000,
+	cards: null,
+	bet: null,
+	place: null, // dealer = 0 / small blind = 1 / big blind = 2,
+	socket: null,
 
 	setup: function(data) {
-		console.log('in player setup', data)
 		if (data) {
 			this.setId(data.id);
 			this.setName(data.name);
+			this.socket = data.socket;
 			if (data.chips) {
 				this.chips = data.chips;
 			}
 		}
+		this.reset();
 		return this;
+	},
+
+	reset: function() {
+		this.cards = [];
+		this.bet = 0;
+		this.place = null;
 	},
 
 	setName: function(name) {
@@ -25,6 +36,13 @@ Player.prototype = {
 
 	setId: function(id) {
 		this.id = id;
+	},
+
+	setCard: function(card) {
+		this.cards.push(card);
+		this.socket.emit('newcard', {
+			card: card
+		});
 	},
 
 	bet: function(bet) {

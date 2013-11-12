@@ -5,22 +5,35 @@
 <body>
 	<h1>boo</h1>
 	<p><a href="javascript:void(0)" onclick="socket.emit('dealcard')">Gimme a card mofo</a></p>
-	<p><input id="playername" type="text" /> <input type="submit" value="Set my name" id="submitname" /> </p>
+	<p><input id="playername" type="text" placeholder="Change you screen name" /> <input type="submit" value="Set my name" id="submitname" /> </p>
+  <p id="admin">
+    <button id="deal">Deal</button>
+  </p>
 <script src="socket.io.js"></script>
 <script>
   var socket = io.connect('http://192.168.43.94:3001'),
   mycards = [];
-  console.log(socket)
+
   socket.on('newcard', function (data) {
     console.log('client has got from server ',data.card);
     mycards.push(data.card)
   });
+
+  socket.on('tableStatus', function (data) {
+    console.log('client has got tablestatus from server ',data);
+  });
+
   document.getElementById('submitname').onclick = function() {
-  	socket.emit('setPlayerName', {
-  		name: document.getElementById('playername').value,
-  		id: socket.socket.sessionid
-  	});
+    socket.emit('setPlayerName', {
+      name: document.getElementById('playername').value,
+      id: socket.socket.sessionid
+    });
   }
+
+  document.getElementById('deal').onclick = function() {
+    socket.emit('dealcards');
+  }
+
 </script>
 </body>
 </html>
