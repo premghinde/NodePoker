@@ -96,10 +96,10 @@ Table.prototype = {
 			} else {
 				this.players[this.dealerPosition].dealer = true;
 			}
-			var smallBlind = this.findActivePlayer(this.players[this.dealerPosition]);
-			smallBlind.smallBlind = true;
-			var bigBlind = this.findActivePlayer(smallBlind);
-			bigBlind.bigBlind = true;
+			var smallBlindPosition = this.findActivePlayer(this.dealerPosition);
+			this.players[smallBlindPosition].smallBlind = true;
+			var bigBlindPosition = this.findActivePlayer(smallBlindPosition);
+			this.players[bigBlindPosition].bigBlind = true;
 		} else {
 			this.dealerPosition = Math.floor(Math.random() * this.players.length);
 			this.setPositions();
@@ -107,20 +107,14 @@ Table.prototype = {
 		this.updateAllPlayers();
 	},
 
-	findActivePlayer: function(player) {
-		var playerIdx = null;
-		this.players.forEach(function(pl, idx) {
-			if (pl.id === player.id) {
-				playerIdx = idx;
-			}
-		});
+	findActivePlayer: function(playerIdx) {
 		if (playerIdx + 1 === this.players.length) {
-			playerIdx = 0;
+			playerIdx = -1;
 		}
-		if (this.players[playerIdx].chips) {
-			return this.players[playerIdx];
+		if (this.players[playerIdx + 1].chips) {
+			return playerIdx + 1;
 		} else {
-			this.findActivePlayer(this.players[playerIdx + 1]);
+			this.findActivePlayer(playerIdx + 1);
 		}
 	},
 
