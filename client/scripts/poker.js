@@ -7,7 +7,11 @@
       for (var i = 0, cardLen = mycards.length; i < cardLen; i++){
         $('#c' + i).removeClass('back hidden').addClass('x' + mycards[i].val + ' ' + mycards[i].suit + ' shown'); 
       }
-      
+    },
+    statusUpdate : function(status){
+      $('.dealerIcon').addClass(status.dealer);
+      $('.playerTotal').html(status.chips);
+      $('#pot').html(status.pot);
     }
   }
 
@@ -19,6 +23,7 @@
 
   socket.on('tableStatus', function (data) { 
     console.log('client has got tablestatus from server ',data); 
+    ui.statusUpdate(data);
   });
 
   document.getElementById('submitname').onclick = function() {
@@ -37,7 +42,7 @@
     console.log('about to reset Table');
     socket.emit('resetTable');
   }
-  
+
   document.getElementById('bet').onclick = function() {
     console.log('about to emit a bet')
     socket.emit('bet', {

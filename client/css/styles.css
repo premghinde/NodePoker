@@ -74,3 +74,14 @@
 .shown {
 	display: block;
 }
+.dealerIcon, .dealerIcon.false{
+	background: url(img/spacer.png) 0 0 no-repeat;
+	height:41px;
+	width:40px;
+}
+.dealerIcon.true {
+	background: url(img/dealer.png) 0 0 no-repeat;
+}
+.cards {
+	overflow: hidden;
+}
