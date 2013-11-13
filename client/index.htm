@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
 </head>
 <body>
 	<h1>boo</h1>
@@ -13,40 +14,31 @@
   <p id="admin">
     <button id="deal">Deal</button>
   </p>
+  <div id="table">
+    <div id="communityCards">
+      <div id="c2" class="card back "></div>
+      <div id="c3" class="card back "></div>
+      <div id="c4" class="card back "></div>
+      <div id="c5" class="card back "></div>
+      <div id="c6" class="card back "></div>
+    </div>
+    <div id="pot">
+
+    </div>
+    <div id="p1">
+      <div id="cards">
+        <div id="c0" class="card back"></div>
+        <div id="c1" class="card back"></div>
+      </div>
+      <div class="playerTotal"></div>
+      <div clasee="playerStatus"></div>
+    </div>
+  </div>
 <script src="socket.io.js"></script>
-<script>
-  var socket = io.connect('http://192.168.43.94:3001'),
-  mycards = [];
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/poker.js"></script>
 
-  socket.on('newcard', function (data) {
-    console.log('client has got from server ',data.card);
-    mycards.push(data.card)
-  });
 
-  socket.on('tableStatus', function (data) {
-    console.log('client has got tablestatus from server ',data);
-  });
 
-  document.getElementById('submitname').onclick = function() {
-    socket.emit('setPlayerName', {
-      name: document.getElementById('playername').value,
-      id: socket.socket.sessionid
-    });
-  }
-
-  document.getElementById('deal').onclick = function() {
-    console.log('about to emit dealcards')
-    socket.emit('dealcards');
-  }
-
-  document.getElementById('bet').onclick = function() {
-    console.log('about to emit a bet')
-    socket.emit('bet', {
-      value: 50,
-      id: socket.socket.sessionid
-    });
-  }
-
-</script>
 </body>
 </html>
