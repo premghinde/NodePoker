@@ -25,7 +25,7 @@ Table.prototype = {
 		this.listPlayers().forEach(function(pl) {
 			pl.reset();
 		});
-		this.setDealer();
+		this.setPositions();
 	},
 
 	evaluateHands: function() {
@@ -44,12 +44,13 @@ Table.prototype = {
 				winner = pl;
 			}
 		});
+		winner.chips += this.pot;
+		table.reset();
 		console.log('winner ',winner.name)
 	},
 
 	deal: function() {
 		var cardsdealt = this.listPlayers()[0].cards.length;
-		console.log('cardsdealt', cardsdealt)
 		if (cardsdealt === 0) {
 			for (var i = 0; i < 2; i++) {
 				this.players.forEach(function(pl) {
@@ -82,24 +83,53 @@ Table.prototype = {
 		}
 	},
 
-	setDealer: function() {
+	setPositions: function() {
 		if (this.dealerPosition) {
+			console.log(this.dealerPosition)
 			if (this.dealerPosition === this.players.length - 1) {
 				this.dealerPosition = 0;
 			} else {
 				this.dealerPosition++;
 			}
+			console.log(this.players[this.dealerPosition])
 			if (!this.players[this.dealerPosition].chips) {
-				this.setDealer();
-				this.players[this.dealerPosition].place = null;
+				this.players[this.dealerPosition].dealer = false;
+				this.setPositions();
 			} else {
-				this.players[this.dealerPosition].place = 0;
+				this.players[this.dealerPosition].dealer = true;
 			}
+			var smallBlind = this.findActivePlayer(this.players[this.dealerPosition]);
+			smallBlind.smallBlind = true;
+			var bigBlind = this.findActivePlayer(smallBlind);
+			bigBlind.bigBlind = true;
 		} else {
 			this.dealerPosition = Math.floor(Math.random() * this.players.length);
-			this.setDealer();
+			this.setPositions();
 		}
 		this.updateAllPlayers();
+	},
+
+	findActivePlayer: function(player) {
+		var playerIdx = null;
+		this.players.forEach(function(pl, idx) {
+			console.log(pl.id, player.id, idx)
+			if (pl.id === player.id) {
+				playerIdx = idx;
+			}
+		});
+		if (playerIdx + 1 === this.players.length) {
+			playerIdx = 0;
+		}
+		if (this.players[playerIdx].chips) {
+			return this.players[playerIdx];
+		} else {
+			this.findActivePlayer(this.players[playerIdx + 1]);
+		}
+	},
+
+	reset: function() {
+		this.pot = 0;
+		this.resetHands();
 	},
 
 	status: function() {
@@ -116,7 +146,9 @@ Table.prototype = {
 				name: pl.name,
 				chips: pl.chips,
 				cards: pl.cards,
-				place: pl.place,
+				dealer: pl.dealer,
+				smallBlind: pl.smallBlind,
+				bigBlind: pl.bigBlind,
 				bet: pl.bet,
 				pot: that.pot
 			});

@@ -9,7 +9,9 @@ Player.prototype = {
 	chips: 1000,
 	cards: null,
 	bet: null,
-	place: null, // dealer = 0 / small blind = 1 / big blind = 2,
+	dealer: false,
+	smallBlind: false,
+	bigBlind: false, 
 	socket: null,
 
 	setup: function(data) {
@@ -29,6 +31,9 @@ Player.prototype = {
 		this.cards = [];
 		this.bet = 0;
 		this.place = null;
+		this.dealer = false;
+		this.smallBlind = false;
+		this.bigBlind = false;
 	},
 
 	setName: function(name) {
