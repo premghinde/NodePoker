@@ -33,6 +33,11 @@
     socket.emit('dealcards');
   }
 
+  document.getElementById('reset').onclick = function() {
+    console.log('about to reset Table');
+    socket.emit('resetTable');
+  }
+  
   document.getElementById('bet').onclick = function() {
     console.log('about to emit a bet')
     socket.emit('bet', {
