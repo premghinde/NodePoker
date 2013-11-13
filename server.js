@@ -39,6 +39,10 @@ io.sockets.on('connection', function (socket) {
 		});
 		table.updateAllPlayers();
 	});
+
+	socket.on('resetTable', function() {
+		table.reset();
+	});
 });
 
 
