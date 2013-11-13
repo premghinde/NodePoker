@@ -1,0 +1,76 @@
+.cards {
+	clear:both;
+}
+.card {
+	height: 99px;
+	width: 72px;
+	background-repeat: no-repeat;
+	background-image: url(img/cards.png);
+	float:left;
+	margin-right: 5px;
+}
+.card.back {
+	background-image: url(img/back.png);
+}
+.card.c{
+	background-position-y: 0px;
+}
+.card.s{
+	background-position-y: -98px;
+}
+.card.d{
+	background-position-y: -293px;
+}
+.card.h{
+	background-position-y: -196px;
+}
+
+.card.xA {
+	background-position-x: 0; 
+}
+.card.x2 {
+	background-position-x: -73px; 
+}
+.card.x3 {
+	background-position-x: -146px; 
+}
+.card.x4 {
+	background-position-x: -219px; 
+}
+.card.x5 {
+	background-position-x: -292px; 
+}
+.card.x6 {
+	background-position-x: -365px; 
+}
+.card.x7 {
+	background-position-x: -438px; 
+}
+.card.x8 {
+	background-position-x: -511px; 
+}
+.card.x9 {
+	background-position-x: -584px; 
+}
+.card.xT {
+	background-position-x: -657px; 
+}
+.card.xJ {
+	background-position-x: -730px; 
+}
+.card.xQ {
+	background-position-x: -803px; 
+}
+.card.xK {
+	background-position-x: -876px; 
+}
+#communityCards {
+	overflow: hidden;
+	height: 120px;
+}
+.hidden {
+	display: none;
+}
+.shown {
+	display: block;
+}
