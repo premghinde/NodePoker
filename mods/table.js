@@ -84,7 +84,7 @@ Table.prototype = {
 	},
 
 	setPositions: function() {
-		if (this.dealerPosition === null) {
+		if (this.dealerPosition !== null) {
 			if (this.dealerPosition === this.players.length - 1) {
 				this.dealerPosition = 0;
 			} else {
@@ -110,7 +110,6 @@ Table.prototype = {
 	findActivePlayer: function(player) {
 		var playerIdx = null;
 		this.players.forEach(function(pl, idx) {
-			console.log(pl.id, player.id, idx)
 			if (pl.id === player.id) {
 				playerIdx = idx;
 			}
@@ -140,6 +139,14 @@ Table.prototype = {
 	updateAllPlayers: function () {
 		var that = this;
 		this.status().players.forEach(function(pl) {
+			var hand = '',
+				holder = [];
+			if (pl.cards.length % 2) {
+				pl.cards.forEach(function(card){
+					holder.push(card.str);
+				});
+				hand = evaluator.evalHand(holder).handName
+			}
 			pl.socket.emit('tableStatus', {
 				name: pl.name,
 				chips: pl.chips,
@@ -148,7 +155,8 @@ Table.prototype = {
 				smallBlind: pl.smallBlind,
 				bigBlind: pl.bigBlind,
 				bet: pl.bet,
-				pot: that.pot
+				pot: that.pot,
+				hand: hand
 			});
 		});	
 	}
