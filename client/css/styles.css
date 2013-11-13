@@ -64,3 +64,13 @@
 .card.xK {
 	background-position-x: -876px; 
 }
+#communityCards {
+	overflow: hidden;
+	height: 120px;
+}
+.hidden {
+	display: none;
+}
+.shown {
+	display: block;
+}

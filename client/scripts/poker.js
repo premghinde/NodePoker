@@ -4,7 +4,10 @@
 
   var ui = {
     loadCards : function(mycards){
-      $('#c1').addClass('x' + mycards[0].val); 
+      for (var i = 0, cardLen = mycards.length; i < cardLen; i++){
+        $('#c' + i).removeClass('back hidden').addClass('x' + mycards[i].val + ' ' + mycards[i].suit + ' shown'); 
+      }
+      
     }
   }
 
