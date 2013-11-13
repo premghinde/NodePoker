@@ -45,7 +45,7 @@ Table.prototype = {
 			}
 		});
 		winner.chips += this.pot;
-		table.reset();
+		this.reset();
 		console.log('winner ',winner.name)
 	},
 
@@ -84,14 +84,12 @@ Table.prototype = {
 	},
 
 	setPositions: function() {
-		if (this.dealerPosition) {
-			console.log(this.dealerPosition)
+		if (this.dealerPosition === null) {
 			if (this.dealerPosition === this.players.length - 1) {
 				this.dealerPosition = 0;
 			} else {
 				this.dealerPosition++;
 			}
-			console.log(this.players[this.dealerPosition])
 			if (!this.players[this.dealerPosition].chips) {
 				this.players[this.dealerPosition].dealer = false;
 				this.setPositions();
